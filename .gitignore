@@ -1,0 +1,29 @@
+Act as a technical writer and documentation engineer. Inspect the actual project files before writing any documentation. Create a polished, accurate, easy-to-follow README.md for this project, written primarily in Filipino with a professional but approachable tone.
+
+Project: “BALDE AGAINST EL NIÑO: Isang Balde, Isang Pamilya,” a browser-based satirical awareness game about water scarcity and El Niño.
+
+Include:
+- A concise project overview and truthful feature list
+- How to play and the supported controls
+- Requirements and instructions for running the project locally
+- Step-by-step GitHub Pages deployment instructions for a static site deployed from the main branch and repository root
+- The actual technologies and project file structure
+- Important limitations, including external CDN/internet requirements and browser-local score storage
+
+Accuracy rules:
+- Verify every feature and path against the source code.
+- Do not claim there is a backend, online/shared leaderboard, build process, package manager, or test suite unless the repository actually contains one.
+- Do not invent credits, licenses, deployment URLs, or functionality.
+- Keep the existing app behavior and source files unchanged; do not add dependencies or unnecessary files.
+- Keep the documentation clean, scannable, and suitable for a public GitHub repository.
+
+Make the documentation changes directly. Before finishing, verify file paths and run `git diff --check`. Summarize the files changed and the validation performed.# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor and temporary files
+.idea/
+*.swp
+*.swo
+*~
