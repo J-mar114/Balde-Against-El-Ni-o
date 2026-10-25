@@ -106,7 +106,7 @@
     }
     @keyframes filterDrill {
       0% { transform: translate(0, 0) rotate(-25deg); }
-      50% { transform: translate(8px, 8px) rotate(5deg); }
+      50%, 80% { transform: translate(32px, 24px) rotate(5deg); }
       100% { transform: translate(0, 0) rotate(-25deg); }
     }
     @keyframes filterWaterRise {
@@ -117,11 +117,41 @@
       0%, 100% { transform: translateY(0); opacity: 0.4; }
       50% { transform: translateY(8px); opacity: 1; }
     }
+    @keyframes filterBucketNudge {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(-2deg) translateX(-2px); }
+      75% { transform: rotate(2deg) translateX(2px); }
+    }
+    @keyframes filterNutTighten {
+      from { transform: rotate(0); }
+      to { transform: rotate(540deg) scale(1.1); }
+    }
+    @keyframes filterHoseWiggle {
+      0%, 100% { transform: rotate(0) translateX(0); }
+      50% { transform: rotate(8deg) translateX(4px); }
+    }
+    @keyframes filterPourDrop {
+      0% { transform: translateY(-12px); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translateY(20px); opacity: 0; }
+    }
+    @keyframes filterWaterStream {
+      0%, 100% { transform: scaleY(0.6); opacity: 0.5; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
     .filter-part { opacity: 0; }
     .filter-part.installed { animation: filterInstall 0.45s ease-out forwards; }
     .filter-drill { opacity: 0; }
-    .filter-drill.active { opacity: 1; animation: filterDrill 0.45s ease-in-out 2; }
-    .filter-water.filling { animation: filterWaterRise 1s ease-out forwards; }
+    .filter-drill.active { opacity: 1; animation: filterDrill 0.7s ease-in-out 2; }
+    .filter-bucket.active { animation: filterBucketNudge 0.35s ease-in-out 2; }
+    .filter-hole { opacity: 0; }
+    .filter-hole.installed { animation: filterInstall 0.35s ease-out forwards; }
+    .filter-nut.active { opacity: 1; animation: filterNutTighten 0.7s ease-in-out; }
+    .filter-hose.active { opacity: 1; animation: filterHoseWiggle 0.5s ease-in-out 2; }
+    .filter-pour.active { animation: filterPourDrop 0.75s ease-in infinite; }
+    #filter-pour-2.active { animation-delay: 0.2s; }
+    #filter-pour-3.active { animation-delay: 0.4s; }
+    .filter-stream.active { animation: filterWaterStream 0.45s ease-in-out infinite; transform-origin: top; }
     .filter-flow.active { animation: filterFlow 0.6s ease-in-out infinite; }
 
     /* Screen Shake on Mistakes */
@@ -362,22 +392,20 @@
         <!-- Animated Bucket Assembly -->
         <div class="flex flex-col items-center w-full sm:w-5/12">
           <div class="font-bangers text-sm text-slate-900 mb-2">DIY WATER FILTER BUCKET</div>
-          <div id="filter-animation" class="relative w-44 h-48 bg-sky-50 border-comic rounded-xl overflow-hidden flex items-center justify-center" data-step="0">
-            <div class="absolute bottom-3 w-28 h-36 bg-amber-100 border-4 border-slate-900 rounded-b-2xl rounded-t-lg overflow-hidden">
-              <div id="filter-water" class="filter-water absolute bottom-0 inset-x-0 h-0 bg-sky-300/80"></div>
-              <div id="filter-hole" class="absolute top-1/2 -right-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-amber-100"></div>
-            </div>
-            <div class="absolute bottom-1 bg-sky-500 text-white font-bangers text-[10px] px-2 py-0.5 rounded-full border-comic">
-              20L BUCKET
-            </div>
-            <span id="filter-drill" class="filter-drill absolute top-10 left-5 text-3xl" aria-hidden="true">🛠️</span>
-            <span id="filter-washer-inside" class="filter-part absolute top-[6.2rem] right-[3.6rem] text-sm" aria-hidden="true">⭕</span>
-            <span id="filter-adapter" class="filter-part absolute top-[6.15rem] right-4 text-xl" aria-hidden="true">🔩</span>
-            <span id="filter-washer-outside" class="filter-part absolute top-[6.2rem] right-2 text-sm" aria-hidden="true">⭕</span>
-            <span id="filter-nut" class="filter-part absolute top-[6.15rem] right-0 text-sm" aria-hidden="true">🔧</span>
-            <span id="filter-hose" class="filter-part absolute top-[6.5rem] right-0 text-3xl" aria-hidden="true">〰️</span>
-            <span id="filter-pour" class="filter-part absolute top-1 left-1/2 -translate-x-1/2 text-2xl" aria-hidden="true">💧</span>
-            <span id="filter-flow" class="filter-flow absolute bottom-6 right-1 text-xl opacity-0" aria-hidden="true">💧</span>
+          <div id="filter-animation" class="relative w-44 h-56 bg-sky-50 border-comic rounded-xl overflow-hidden flex items-center justify-center" data-step="0">
+            <img id="filter-bucket-image" src="Assets/Balde.png" alt="DSWD family water filtration kit bucket" class="filter-bucket absolute inset-0 w-full h-full object-contain p-1">
+            <span id="filter-hole" class="filter-hole absolute top-[74%] left-[52%] w-3 h-3 rounded-full bg-slate-900 border-2 border-amber-100" aria-hidden="true"></span>
+            <span id="filter-drill" class="filter-drill absolute top-[58%] left-[24%] text-3xl" aria-hidden="true">🛠️</span>
+            <span id="filter-washer-inside" class="filter-part absolute top-[72%] left-[45%] text-sm" aria-hidden="true">⭕</span>
+            <span id="filter-adapter" class="filter-part absolute top-[70%] left-[51%] text-xl" aria-hidden="true">🔩</span>
+            <span id="filter-washer-outside" class="filter-part absolute top-[72%] left-[57%] text-sm" aria-hidden="true">⭕</span>
+            <span id="filter-nut" class="filter-part absolute top-[70%] left-[61%] text-sm" aria-hidden="true">🔧</span>
+            <span id="filter-hose" class="filter-part absolute top-[74%] left-[64%] text-3xl" aria-hidden="true">〰️</span>
+            <span id="filter-pour-1" class="filter-pour absolute top-[20%] left-[43%] text-lg opacity-0" aria-hidden="true">💧</span>
+            <span id="filter-pour-2" class="filter-pour absolute top-[20%] left-1/2 text-lg opacity-0" aria-hidden="true">💧</span>
+            <span id="filter-pour-3" class="filter-pour absolute top-[20%] left-[57%] text-lg opacity-0" aria-hidden="true">💧</span>
+            <span class="filter-stream absolute top-[77%] left-[53%] h-4 w-1 rounded-full bg-sky-500 opacity-0" aria-hidden="true"></span>
+            <span id="filter-flow" class="filter-flow absolute bottom-[5%] left-[53%] text-xl opacity-0" aria-hidden="true">💧</span>
           </div>
         </div>
 
@@ -419,7 +447,7 @@
       <div class="w-full max-w-xl speech-balloon p-3.5 mb-2.5">
         <span class="text-purple-700 font-bangers text-base tracking-wide uppercase">Aling Tess (Budget Queen):</span>
         <span id="lvl3-dialogue" class="text-xs sm:text-sm font-bold text-slate-800 ml-1">
-          "OMG, 20 liters lang 'tong filtered water natin pero ang daming kailangan sa bahay! Piliin mo kung sinong bibigyan o titipirin para walang ma-heatstroke!"
+          "Ito lang ang naipon nating tubig, pero ang daming nangangailangan. Pag-isipan kung sino ang bibigyan ng sapat, titipiran, o hindi muna mabibigyan."
         </span>
       </div>
 
@@ -431,7 +459,16 @@
             Natitirang Tubig: <span id="dist-water-remaining" class="font-komiks text-sky-700 text-lg">20.0</span> L
           </div>
           <div class="text-xs font-extrabold text-slate-800">
-            Pangangailangan: <span id="dist-satisfied-count" class="font-komiks text-emerald-700 text-base">0 / 4</span>
+            Desisyon: <span id="dist-satisfied-count" class="font-komiks text-emerald-700 text-base">0 / 5</span>
+          </div>
+        </div>
+        <div class="mb-2 px-1">
+          <div class="flex justify-between text-[10px] font-bold text-slate-600 mb-1">
+            <span>Tubig na naipon</span>
+            <span><span id="dist-water-used">0.0</span> L nagamit</span>
+          </div>
+          <div class="h-2.5 bg-slate-200 rounded-full border border-slate-900/20 overflow-hidden">
+            <div id="dist-water-bar" class="h-full bg-sky-500 transition-all duration-300" style="width: 100%"></div>
           </div>
         </div>
 
@@ -442,7 +479,7 @@
       </div>
 
       <div class="mt-2 text-center text-xs font-bold text-slate-800 bg-yellow-300 px-3 py-1 rounded-full border-comic shadow-comic-sm">
-        ⚖️ Decide fast! May maiiwanang tuyot ang lalamunan kapag naubos agad ang 20L!
+        ⚖️ I-budget ang totoong naipon mong tubig. Pumili ng full, tipid, o i-skip kada pangangailangan.
       </div>
     </div>
 
@@ -674,7 +711,7 @@
         <div class="bg-amber-50 border-comic rounded-xl p-2.5 space-y-1.5 text-xs font-bold text-slate-800">
           <p>🎯 <strong>Level 1: Nasaan ang Tubig?</strong> — Saluhin ang tubig-ulan bago mag-evaporate, at iwasan ang dumi para hindi makontamina ang naipon.</p>
           <p>🧪 <strong>Level 2: Buuin ang Water Filter</strong> — Sundan ang 5 hakbang sa pag-install ng bucket filter kit.</p>
-          <p>🪣 <strong>Level 3: Rasyon sa Pamilya</strong> — I-budget ang 20L sa gatas ng baby, pagkain, at hydration ni Bantay.</p>
+          <p>🪣 <strong>Level 3: Rasyon sa Pamilya</strong> — I-budget ang totoong dami ng tubig na naipon mo para sa pangangailangan ng pamilya.</p>
           <p>🔥 <strong>Level 4: Diskarte sa Init</strong> — Bomba ng poso, dilig ng halaman, at painom sa pamilya.</p>
           <p>🏛️ <strong>Final Level: Pangmatagalang Solusyon</strong> — Pumili ng 3 long-term proposals para sa ending mo!</p>
         </div>
@@ -782,6 +819,8 @@
   <footer class="w-full bg-slate-900 text-amber-200/80 border-t-3 border-slate-950 text-center text-[10px] sm:text-[11px] py-1.5 px-2 z-20">
     Developed by Jaymar Budduan. Fan-made Pinoy satire game. Bawas init ng ulo, dagdag kamalayan para sa tubig ng bayan!
   </footer>
+
+  <audio id="lvl2-dswd-audio" src="Assets/DSWD.mp3" preload="auto" loop></audio>
 
   <!-- ==================== AUDIO & JAVASCRIPT LOGIC ==================== -->
   <script>
@@ -916,6 +955,23 @@
       if (GameState.loopInterval) clearInterval(GameState.loopInterval);
       GameState.timerInterval = null;
       GameState.loopInterval = null;
+    }
+
+    function playLevel2Audio() {
+      const audio = document.getElementById('lvl2-dswd-audio');
+      audio.muted = sound.muted;
+      if (sound.muted) return;
+      audio.currentTime = 0;
+      audio.play().catch(error => {
+        console.error('Hindi na-play ang Level 2 DSWD audio.', error);
+        showToast("Hindi ma-play ang audio. I-check ang Assets/DSWD.mp3.");
+      });
+    }
+
+    function stopLevel2Audio() {
+      const audio = document.getElementById('lvl2-dswd-audio');
+      audio.pause();
+      audio.currentTime = 0;
     }
 
     function showToast(msg) {
@@ -1176,11 +1232,12 @@
     function startLevel2() {
       GameState.currentLevel = 2;
       GameState.levelScore = 0;
-      GameState.timer = 20;
+      GameState.timer = 30;
       hud.title.innerText = "Level 2: Buuin ang Balde Filter";
       hud.heatLabel.innerText = "COUNTDOWN BAGO MATUYO ANG NAIPONG TUBIG";
       switchScreen('lvl2');
       updateHUD();
+      playLevel2Audio();
 
       let currentStep = 0;
       const feedback = document.getElementById('filter-feedback');
@@ -1205,17 +1262,22 @@
         "Umaagos na ang tubig sa filter!"
       ];
       const animationParts = [
-        ['filter-drill'],
+        ['filter-drill', 'filter-hole'],
         ['filter-washer-inside', 'filter-adapter', 'filter-washer-outside'],
         ['filter-nut'],
         ['filter-hose'],
-        ['filter-pour', 'filter-flow']
+        []
       ];
 
       animation.dataset.step = '0';
+      document.getElementById('filter-bucket-image').classList.remove('active');
       document.getElementById('filter-drill').classList.remove('active');
-      document.getElementById('filter-water').classList.remove('filling');
+      document.getElementById('filter-hole').classList.remove('installed');
       document.querySelectorAll('.filter-part').forEach(part => part.classList.remove('installed'));
+      document.getElementById('filter-nut').classList.remove('active');
+      document.getElementById('filter-hose').classList.remove('active');
+      document.querySelectorAll('.filter-pour').forEach(drop => drop.classList.remove('active'));
+      document.querySelector('.filter-stream').classList.remove('active');
       document.getElementById('filter-flow').classList.remove('active');
       document.querySelectorAll('.filter-step').forEach(button => {
         button.disabled = false;
@@ -1244,12 +1306,19 @@
             const part = document.getElementById(partId);
             if (partId === 'filter-drill') {
               part.classList.add('active');
+            } else if (partId === 'filter-nut' || partId === 'filter-hose') {
+              part.classList.add('installed', 'active');
             } else {
               part.classList.add('installed');
             }
           });
+          const bucketImage = document.getElementById('filter-bucket-image');
+          bucketImage.classList.remove('active');
+          void bucketImage.offsetWidth;
+          bucketImage.classList.add('active');
           if (currentStep === 4) {
-            document.getElementById('filter-water').classList.add('filling');
+            document.querySelectorAll('.filter-pour').forEach(drop => drop.classList.add('active'));
+            document.querySelector('.filter-stream').classList.add('active');
             document.getElementById('filter-flow').classList.add('active');
           }
 
@@ -1260,8 +1329,8 @@
 
           if (currentStep === stepButtons.length) {
             clearTimers();
+            stopLevel2Audio();
             sound.playSuccess();
-            GameState.waterLitres = 20.0;
             const speedBonus = Math.max(2, Math.floor(GameState.timer / 2));
             showLevelClearModal(
               "LEVEL 2 COMPLETE: BUO NA ANG BALDE!",
@@ -1278,8 +1347,8 @@
         updateHUD();
         if (GameState.timer <= 0) {
           clearTimers();
+          stopLevel2Audio();
           sound.playSizzle();
-          GameState.waterLitres = Math.max(12, GameState.waterLitres);
           showLevelClearModal(
             "LEVEL 2: NAUBUSAN NG TIME!",
             "Hindi natapos ang pagbuo ng filter kit sa oras.",
@@ -1301,103 +1370,149 @@
       hud.heatLabel.innerText = "TEMPERATURA SA SALA: 42°C";
       switchScreen('lvl3');
       
-      let availableLitres = Math.max(16, GameState.waterLitres);
-      let satisfiedCount = 0;
+      const startingLitres = Math.max(0, GameState.waterLitres);
+      let availableLitres = startingLitres;
+      let decisionsMade = 0;
+      let peopleGivenWater = 0;
+      let roundFinished = false;
+      document.getElementById('lvl3-dialogue').innerText =
+        `Ito lang ang naipon nating ${startingLitres.toFixed(1)} L, pero ang daming nangangailangan. Pag-isipan kung sino ang bibigyan ng sapat, titipiran, o hindi muna mabibigyan.`;
       
       const waterRemEl = document.getElementById('dist-water-remaining');
       const satisfiedEl = document.getElementById('dist-satisfied-count');
+      const waterUsedEl = document.getElementById('dist-water-used');
+      const waterBarEl = document.getElementById('dist-water-bar');
       waterRemEl.innerText = availableLitres.toFixed(1);
-      satisfiedEl.innerText = `${satisfiedCount} / 4`;
+      waterUsedEl.innerText = "0.0";
+      waterBarEl.style.width = startingLitres > 0 ? "100%" : "0%";
+      satisfiedEl.innerText = `${decisionsMade} / 5`;
       updateHUD();
 
       const familyQueueContainer = document.getElementById('family-queue');
       familyQueueContainer.innerHTML = '';
 
       const householdNeeds = [
-        { id: 1, title: "Pampaligo & Milk ni Baby Biboy", needs: 6, note: "Crucial 'to beh para di magka-bungang araw at dehydration!", icon: "👶🍼" },
-        { id: 2, title: "Hydration ni Tatay Enteng", needs: 5, note: "Nasa construction site maghapon, muntik na mag-heatstroke kahapon!", icon: "🔨🥵" },
-        { id: 3, title: "Pagsasaing & Ulam ni Nanay Tess", needs: 6, note: "Walang kanin at sabaw kapag walang tubig, magagalit ang pamilya!", icon: "🍚🍲" },
-        { id: 4, title: "Pang-painom & Basang Tuwalya kay Bantay", needs: 3, note: "Hingal na hingal na ang ating good boy sa gilid ng bakuran!", icon: "🐕🌡️" },
-        { id: 5, title: "Pang-flush sa Banyo / Hygiene", needs: 8, note: "Emergency level! Wag hayaang mangamoy ang CR ng bahay!", icon: "🚽🧻" }
+        { id: 1, title: "Tubig para kay Baby Biboy", needs: 6, note: "Unahin ang pangangailangan ng baby.", icon: "👶🍼" },
+        { id: 2, title: "Inumin ni Tatay Enteng", needs: 5, note: "Galing sa construction site at naiinitan buong araw.", icon: "🔨🥵" },
+        { id: 3, title: "Pagluluto ni Nanay Tess", needs: 6, note: "Kailangan sa paghahanda ng pagkain ng pamilya.", icon: "🍚🍲" },
+        { id: 4, title: "Tubig at basang tuwalya kay Bantay", needs: 3, note: "Para makatulong magpalamig sa alagang aso.", icon: "🐕🌡️" },
+        { id: 5, title: "Panglinis at hygiene", needs: 8, note: "Tubig para mapanatiling malinis ang bahay.", icon: "🚿🧼" }
       ];
+
+      const refreshWaterChoices = () => {
+        familyQueueContainer.querySelectorAll('.ration-card:not(.decided)').forEach(card => {
+          card.querySelectorAll('[data-action="full"], [data-action="half"]').forEach(button => {
+            const amount = Number(button.dataset.amount);
+            button.disabled = availableLitres < amount;
+            button.classList.toggle('opacity-40', button.disabled);
+            button.title = button.disabled ? `Kulang ang tubig para sa ${amount} L na option.` : '';
+          });
+        });
+      };
+
+      const finishRationing = (timedOut = false) => {
+        if (roundFinished) return;
+        roundFinished = true;
+        clearTimers();
+        familyQueueContainer.querySelectorAll('.ration-card:not(.decided)').forEach(card => {
+          decisionsMade++;
+          card.classList.add('opacity-50', 'decided');
+          card.querySelectorAll('button').forEach(button => { button.disabled = true; });
+          card.insertAdjacentHTML('beforeend', '<div class="text-[11px] font-black text-slate-500 mt-1">Hindi nabigyan ngayong round.</div>');
+        });
+        availableLitres = Math.max(0, availableLitres);
+        GameState.waterLitres = availableLitres;
+        waterRemEl.innerText = availableLitres.toFixed(1);
+        satisfiedEl.innerText = `${decisionsMade} / ${householdNeeds.length}`;
+        waterUsedEl.innerText = (startingLitres - availableLitres).toFixed(1);
+        waterBarEl.style.width = startingLitres > 0 ? `${(availableLitres / startingLitres) * 100}%` : "0%";
+        updateHUD();
+
+        const resultTitle = timedOut ? "LEVEL 3: TUMAKBO ANG ORAS!" : "LEVEL 3: TAPOS NA ANG RASYON!";
+        const resultSummary = `${peopleGivenWater} sa ${householdNeeds.length} pangangailangan ang nabigyan. ${availableLitres.toFixed(1)} L ang natira mula sa ${startingLitres.toFixed(1)} L na naipon.`;
+        showLevelClearModal(
+          resultTitle,
+          resultSummary,
+          timedOut ? 0 : 5,
+          startLevel4
+        );
+      };
 
       householdNeeds.forEach(item => {
         const card = document.createElement('div');
-        card.className = "bg-amber-50 border-comic rounded-xl p-2.5 flex flex-col justify-between shadow-comic-sm";
+        const rationAmount = Math.max(1, Math.round(item.needs / 2));
+        card.className = "ration-card bg-amber-50 border-comic rounded-xl p-2.5 flex flex-col justify-between shadow-comic-sm transition-opacity";
         card.innerHTML = `
           <div>
             <div class="flex items-center justify-between">
               <span class="font-bangers text-sm sm:text-base text-slate-900 tracking-wide">${item.icon} ${item.title}</span>
-              <span class="bg-rose-100 text-rose-800 text-[10px] font-black px-1.5 py-0.5 rounded border border-rose-400">${item.needs}L Needs</span>
+              <span class="bg-rose-100 text-rose-800 text-[10px] font-black px-1.5 py-0.5 rounded border border-rose-400">Need: ${item.needs} L</span>
             </div>
             <p class="text-[11px] text-slate-600 mt-1 italic font-medium">"${item.note}"</p>
           </div>
           <div class="flex gap-1.5 mt-2">
-            <button data-action="full" class="btn-comic flex-1 bg-sky-400 hover:bg-sky-300 text-slate-900 font-bangers text-xs py-1 rounded-lg">
-              Bigay Full (${item.needs}L)
+            <button data-action="full" data-amount="${item.needs}" class="btn-comic flex-1 bg-sky-400 hover:bg-sky-300 text-slate-900 font-bangers text-xs py-1 rounded-lg">
+              Full ${item.needs} L
             </button>
-            <button data-action="half" class="btn-comic flex-1 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bangers text-xs py-1 rounded-lg">
-              Tipirin (${Math.round(item.needs / 2)}L)
+            <button data-action="half" data-amount="${rationAmount}" class="btn-comic flex-1 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bangers text-xs py-1 rounded-lg">
+              Tipid ${rationAmount} L
+            </button>
+            <button data-action="skip" class="btn-comic bg-slate-200 hover:bg-slate-300 text-slate-800 font-bangers text-xs px-2 py-1 rounded-lg">
+              Skip
             </button>
           </div>
         `;
 
-        const fullBtn = card.querySelector('[data-action="full"]');
-        const halfBtn = card.querySelector('[data-action="half"]');
-
-        const dispenseWater = (amount, statusNote) => {
+        const decideForHousehold = (amount, statusNote) => {
+          if (roundFinished || card.classList.contains('decided')) return;
           if (availableLitres < amount) {
             sound.playSizzle();
             triggerShake();
-            showToast("Ubos na ang tubig sa balde! May maiiwanang tuyot ang lalamunan!");
+            showToast("Kulang ang natitirang tubig para sa option na 'yan. Pumili ng tipid o skip.");
             return;
           }
           sound.playWaterDrop();
-          availableLitres -= amount;
-          satisfiedCount++;
-          
-          GameState.levelScore += 4;
-          GameState.thirstPercent = Math.max(5, GameState.thirstPercent - 5);
+          availableLitres = Math.max(0, Number((availableLitres - amount).toFixed(1)));
+          decisionsMade++;
+          peopleGivenWater++;
+          GameState.levelScore += statusNote === "Sapat" ? 6 : 4;
+          GameState.thirstPercent = Math.max(5, GameState.thirstPercent - (statusNote === "Sapat" ? 7 : 4));
           waterRemEl.innerText = availableLitres.toFixed(1);
-          satisfiedEl.innerText = `${satisfiedCount} / 4`;
+          satisfiedEl.innerText = `${decisionsMade} / ${householdNeeds.length}`;
+          waterUsedEl.innerText = (startingLitres - availableLitres).toFixed(1);
+          waterBarEl.style.width = startingLitres > 0 ? `${(availableLitres / startingLitres) * 100}%` : "0%";
+          GameState.waterLitres = availableLitres;
           
-          card.classList.add('opacity-40', 'pointer-events-none');
-          card.insertAdjacentHTML('beforeend', `<div class="text-[11px] font-black text-emerald-700 mt-1">Nabigyan ng ${amount}L (${statusNote}) +4 pts</div>`);
+          card.classList.add('opacity-60', 'pointer-events-none', 'decided');
+          card.insertAdjacentHTML('beforeend', `<div class="text-[11px] font-black text-emerald-700 mt-1">Nabigyan ng ${amount} L (${statusNote})</div>`);
           
-          showFloatingText(`+4 pts (-${amount}L)`, window.innerWidth / 2, 230, '#0284c7');
+          showFloatingText(`+${statusNote === "Sapat" ? 6 : 4} pts (-${amount} L)`, window.innerWidth / 2, 230, '#0284c7');
           updateHUD();
-
-          if (satisfiedCount >= 4 || availableLitres < 1) {
-            clearTimers();
-            sound.playSuccess();
-            GameState.waterLitres = availableLitres;
-            
-            showLevelClearModal(
-              "LEVEL 3 COMPLETE: NA-BUDGET ANG 20L!",
-              `Nabigyan ang ${satisfiedCount} needs sa bahay, pero bitin pa rin ang isang balde!`,
-              Math.round(availableLitres * 2),
-              startLevel4
-            );
-          }
+          refreshWaterChoices();
+          if (decisionsMade === householdNeeds.length) finishRationing();
         };
 
-        fullBtn.onclick = () => dispenseWater(item.needs, "Sapat");
-        halfBtn.onclick = () => dispenseWater(Math.round(item.needs / 2), "Tinipid");
+        card.querySelector('[data-action="full"]').onclick = () => decideForHousehold(item.needs, "Sapat");
+        card.querySelector('[data-action="half"]').onclick = () => decideForHousehold(rationAmount, "Tinipid");
+        card.querySelector('[data-action="skip"]').onclick = () => {
+          if (roundFinished || card.classList.contains('decided')) return;
+          sound.playSizzle();
+          decisionsMade++;
+          card.classList.add('opacity-60', 'pointer-events-none', 'decided');
+          card.insertAdjacentHTML('beforeend', '<div class="text-[11px] font-black text-slate-500 mt-1">Na-skip. Walang nagamit na tubig.</div>');
+          satisfiedEl.innerText = `${decisionsMade} / ${householdNeeds.length}`;
+          if (decisionsMade === householdNeeds.length) finishRationing();
+        };
 
         familyQueueContainer.appendChild(card);
       });
+      refreshWaterChoices();
 
       GameState.timerInterval = setInterval(() => {
         GameState.timer--;
         updateHUD();
         if (GameState.timer <= 0) {
-          clearTimers();
-          showLevelClearModal(
-            "LEVEL 3 TIME'S UP!",
-            "Nagka-initan ang pamilya kasi ubos agad ang balde bago mag-dinner!",
-            0,
-            startLevel4
-          );
+          finishRationing(true);
         }
       }, 1000);
     }
@@ -1703,6 +1818,11 @@
       // Audio toggle
       document.getElementById('btn-sound-toggle').onclick = () => {
         sound.muted = !sound.muted;
+        const level2Audio = document.getElementById('lvl2-dswd-audio');
+        level2Audio.muted = sound.muted;
+        if (!sound.muted && GameState.currentLevel === 2 && level2Audio.paused) {
+          playLevel2Audio();
+        }
         document.getElementById('sound-icon').innerText = sound.muted ? '🔇' : '🔊';
         showToast(sound.muted ? "Naka-mute na ang sounds!" : "Sound effects ON!");
       };
@@ -1761,6 +1881,7 @@
 
       document.getElementById('btn-restart-app').onclick = () => {
         clearTimers();
+        stopLevel2Audio();
         GameState.totalScore = 0;
         switchScreen('menu');
         showToast("Bumalik sa Main Menu!");

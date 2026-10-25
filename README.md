@@ -2,7 +2,7 @@
 
 ### One Bucket, One Family
 
-**Can one family make it through the heat with just 20 liters of water?**
+**Can one family make it through the heat with only the water they can collect?**
 
 *Balde Against El Niño* is an interactive browser game that puts you in the middle of a family’s struggle with extreme heat and water scarcity. Across five stages, you’ll test your strategy, decision-making, and care for the community as you balance urgent needs with long-term solutions.
 
@@ -12,9 +12,9 @@ Created as a satirical awareness game about water scarcity, it pairs a colorful 
 
 Help the Dimagiba family face the effects of El Niño:
 
-1. **Catch water drops** before they evaporate in the heat.
-2. **Assemble an emergency bucket filter** using the parts in the correct order.
-3. **Ration 20 liters of water** to meet the family’s needs.
+1. **Catch rainwater** before it evaporates, while avoiding 💩 contamination that reduces your clean-water supply. Collect no water and it’s game over—with a chance to try again.
+2. **Assemble an emergency bucket filter** by drilling the bucket, installing the adapter and washers, tightening the nut, attaching the hose, and pouring in water. The action buttons appear in a random order, so you’ll need to choose the correct sequence.
+3. **Ration the exact amount you collected** among five needs: the baby, Tatay, cooking, the family dog, and hygiene. For each need, choose a full ration, a smaller ration, or skip it. You have 25 seconds, and the remaining-water meter updates after every choice.
 4. **Manage the heat and competing needs** of the well, crops, and family.
 5. **Choose three community projects** to shape the future of the local water supply.
 
@@ -23,6 +23,10 @@ Your choices affect your score, the family’s well-being, achievements, and the
 ## Game Features
 
 - Five interactive stages, each with a different challenge.
+- Animated bucket-filter assembly that shows each installation step.
+- A 30-second Level 2 timer and randomized action buttons for an added sequencing challenge.
+- A Level 1 game-over screen with a try-again option if you collect no rainwater.
+- Level 3 carries forward the actual collected water—there is no automatic refill. Unaffordable ration options are disabled, and the results show how many needs received water and how much remains.
 - Choices and endings that reflect different levels of community resilience.
 - Achievements, score, high score, and a local leaderboard.
 - Comic-inspired visuals, animated details, and sound effects.
