@@ -99,6 +99,31 @@
     }
     .water-pulse { animation: dropPulse 0.9s ease-in-out infinite; }
 
+    @keyframes filterInstall {
+      0% { opacity: 0; transform: scale(0.5) translateY(-8px); }
+      70% { transform: scale(1.15) translateY(0); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes filterDrill {
+      0% { transform: translate(0, 0) rotate(-25deg); }
+      50% { transform: translate(8px, 8px) rotate(5deg); }
+      100% { transform: translate(0, 0) rotate(-25deg); }
+    }
+    @keyframes filterWaterRise {
+      from { height: 0; }
+      to { height: 42%; }
+    }
+    @keyframes filterFlow {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+    .filter-part { opacity: 0; }
+    .filter-part.installed { animation: filterInstall 0.45s ease-out forwards; }
+    .filter-drill { opacity: 0; }
+    .filter-drill.active { opacity: 1; animation: filterDrill 0.45s ease-in-out 2; }
+    .filter-water.filling { animation: filterWaterRise 1s ease-out forwards; }
+    .filter-flow.active { animation: filterFlow 0.6s ease-in-out infinite; }
+
     /* Screen Shake on Mistakes */
     .shake-fx {
       animation: shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
@@ -291,7 +316,7 @@
       <div class="w-full max-w-xl speech-balloon p-3.5 mb-2.5">
         <span class="text-rose-600 font-bangers text-base tracking-wide uppercase">Tatay Enteng:</span>
         <span id="lvl1-dialogue" class="text-xs sm:text-sm font-bold text-slate-800 ml-1">
-          "Huy mga anak! Tumatagas pa yung last water drops sa gripo ng barangay! I-tap niyo agad bago mag-evaporate sa 43°C na impiyerno levels na init!"
+          "Mga anak, saluhin natin ang tubig-ulan habang umuulan pa. Iwasan ang dumi para hindi makontamina ang maiipon natin."
         </span>
       </div>
 
@@ -317,7 +342,7 @@
 
       <!-- Helper Banner -->
       <div class="mt-2 text-center text-xs font-black text-slate-800 bg-yellow-300 px-3 py-1 rounded-full border-comic shadow-comic-sm">
-        👉 Tap or click ang mga water drops (💧) ASAP bago maging singaw sa init!
+        👉 Saluhin ang 💧 tubig-ulan at iwasan ang 💩. Kapag napindot ang dumi, mababawasan ang malinis na tubig!
       </div>
     </div>
 
@@ -327,54 +352,64 @@
       <div class="w-full max-w-xl speech-balloon p-3.5 mb-2.5">
         <span class="text-sky-700 font-bangers text-base tracking-wide uppercase">Nanay Tess:</span>
         <span class="text-xs sm:text-sm font-bold text-slate-800 ml-1">
-          "Dumating na yung DIY balde filter kit! Kaso DIY nga, ikaw mag-aassemble beh! Pindutin in correct order yung 3 layers para safe inumin at di magka-LBM si Baby Biboy!"
+          "Buuin natin yung DIY water filter bucket. Sundan yung limang hakbang: butasan ang balde, ikabit ang adapter at washers, higpitan ang nut, ikabit ang hose, tapos lagyan ng tubig."
         </span>
       </div>
 
       <!-- Assembly Board -->
-      <div class="w-full max-w-xl bg-white border-comic-thick rounded-2xl p-4 shadow-comic flex flex-col md:flex-row items-center justify-around gap-4 min-h-[300px]">
-        
-        <!-- Bucket Schematic Outline -->
-        <div class="relative w-48 h-64 bg-amber-50 border-4 border-dashed border-slate-900 rounded-b-3xl rounded-t-lg flex flex-col justify-end p-2.5 items-center">
-          <div class="absolute -top-4 bg-sky-500 text-white font-bangers tracking-wider text-xs px-3 py-1 rounded-full border-comic shadow-comic-sm">
-            20L EMERGENCY BALDE
-          </div>
-          
-          <!-- Slots to fill in order -->
-          <div id="slot-layer-3" class="w-full h-14 bg-slate-200 border-comic rounded-lg mb-1 flex items-center justify-center text-xs font-bold text-slate-500 text-center px-1">
-            [ Layer 3: Faucet & Micro-Filter ]
-          </div>
-          <div id="slot-layer-2" class="w-full h-14 bg-slate-200 border-comic rounded-lg mb-1 flex items-center justify-center text-xs font-bold text-slate-500 text-center px-1">
-            [ Layer 2: Activated Charcoal ]
-          </div>
-          <div id="slot-layer-1" class="w-full h-14 bg-slate-200 border-comic rounded-lg flex items-center justify-center text-xs font-bold text-slate-500 text-center px-1">
-            [ Layer 1: Sand & Gravel Pang-sala ]
+      <div class="w-full max-w-xl bg-white border-comic-thick rounded-2xl p-3 shadow-comic flex flex-col sm:flex-row items-center justify-around gap-3">
+
+        <!-- Animated Bucket Assembly -->
+        <div class="flex flex-col items-center w-full sm:w-5/12">
+          <div class="font-bangers text-sm text-slate-900 mb-2">DIY WATER FILTER BUCKET</div>
+          <div id="filter-animation" class="relative w-44 h-48 bg-sky-50 border-comic rounded-xl overflow-hidden flex items-center justify-center" data-step="0">
+            <div class="absolute bottom-3 w-28 h-36 bg-amber-100 border-4 border-slate-900 rounded-b-2xl rounded-t-lg overflow-hidden">
+              <div id="filter-water" class="filter-water absolute bottom-0 inset-x-0 h-0 bg-sky-300/80"></div>
+              <div id="filter-hole" class="absolute top-1/2 -right-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-amber-100"></div>
+            </div>
+            <div class="absolute bottom-1 bg-sky-500 text-white font-bangers text-[10px] px-2 py-0.5 rounded-full border-comic">
+              20L BUCKET
+            </div>
+            <span id="filter-drill" class="filter-drill absolute top-10 left-5 text-3xl" aria-hidden="true">🛠️</span>
+            <span id="filter-washer-inside" class="filter-part absolute top-[6.2rem] right-[3.6rem] text-sm" aria-hidden="true">⭕</span>
+            <span id="filter-adapter" class="filter-part absolute top-[6.15rem] right-4 text-xl" aria-hidden="true">🔩</span>
+            <span id="filter-washer-outside" class="filter-part absolute top-[6.2rem] right-2 text-sm" aria-hidden="true">⭕</span>
+            <span id="filter-nut" class="filter-part absolute top-[6.15rem] right-0 text-sm" aria-hidden="true">🔧</span>
+            <span id="filter-hose" class="filter-part absolute top-[6.5rem] right-0 text-3xl" aria-hidden="true">〰️</span>
+            <span id="filter-pour" class="filter-part absolute top-1 left-1/2 -translate-x-1/2 text-2xl" aria-hidden="true">💧</span>
+            <span id="filter-flow" class="filter-flow absolute bottom-6 right-1 text-xl opacity-0" aria-hidden="true">💧</span>
           </div>
         </div>
 
-        <!-- Available Parts Pile -->
+        <!-- Ordered Assembly Steps -->
         <div class="flex-1 flex flex-col items-center w-full">
           <h4 class="font-bangers text-base text-slate-900 mb-2 text-center uppercase tracking-wider">
-            Piliin ang Tamang Piyesa:
+            Sundan ang mga hakbang:
           </h4>
-          <div id="parts-bin" class="flex flex-col gap-2 w-full max-w-xs">
-            <button data-part="gravel" class="btn-comic part-item bg-amber-300 hover:bg-yellow-300 text-slate-900 rounded-xl p-2.5 text-xs font-extrabold flex items-center gap-2 text-left">
-              <span class="text-xl">🪨</span> Sand & Gravel (Pangsala ng putik & lumot)
+          <div id="filter-steps" class="flex flex-col gap-1.5 w-full max-w-sm">
+            <button data-step="0" class="btn-comic filter-step bg-amber-100 hover:bg-amber-200 text-slate-900 rounded-lg p-2 text-[11px] font-extrabold text-left">
+              🛠️ Mag-drill ng butas, 2 inches mula sa ilalim ng malinis na balde.
             </button>
-            <button data-part="charcoal" class="btn-comic part-item bg-slate-800 hover:bg-slate-700 text-white rounded-xl p-2.5 text-xs font-extrabold flex items-center gap-2 text-left">
-              <span class="text-xl">🪵</span> Activated Uling (Pang-tanggal ng lansa & amoy)
+            <button data-step="1" class="btn-comic filter-step bg-amber-100 hover:bg-amber-200 text-slate-900 rounded-lg p-2 text-[11px] font-extrabold text-left">
+              🔩 Ipasok ang adapter at rubber washers sa magkabilang side.
             </button>
-            <button data-part="membrane" class="btn-comic part-item bg-sky-400 hover:bg-sky-300 text-slate-900 rounded-xl p-2.5 text-xs font-extrabold flex items-center gap-2 text-left">
-              <span class="text-xl">🚰</span> Micro-Membrane Faucet (Gripo pang-sala ng bacteria)
+            <button data-step="2" class="btn-comic filter-step bg-amber-100 hover:bg-amber-200 text-slate-900 rounded-lg p-2 text-[11px] font-extrabold text-left">
+              🔧 Higpitan nang maayos ang plastic nut.
+            </button>
+            <button data-step="3" class="btn-comic filter-step bg-amber-100 hover:bg-amber-200 text-slate-900 rounded-lg p-2 text-[11px] font-extrabold text-left">
+              〰️ Ikabit ang filter hose sa nozzle sa labas.
+            </button>
+            <button data-step="4" class="btn-comic filter-step bg-amber-100 hover:bg-amber-200 text-slate-900 rounded-lg p-2 text-[11px] font-extrabold text-left">
+              💧 Buhusan ng tubig at hayaang dumaloy sa filter.
             </button>
           </div>
 
-          <div id="filter-feedback" class="mt-3 text-xs font-black text-rose-600 text-center min-h-[22px]"></div>
+          <div id="filter-feedback" class="mt-2 text-xs font-black text-sky-700 text-center min-h-[22px]" aria-live="polite"></div>
         </div>
       </div>
 
       <div class="mt-2 text-center text-xs font-bold text-slate-800 bg-white px-3 py-1 rounded-full border-comic shadow-comic-sm">
-        💡 Pro-Tip: Layer 1 Graba/Sand muna, Layer 2 Charcoal, tapos Layer 3 Faucet!
+        💡 Sundan ang instructions para sa mismong filter adapter at hose kit mo.
       </div>
     </div>
 
@@ -637,8 +672,8 @@
           Ang <strong>BALDE AGAINST EL NIÑO</strong> ay isang Taglish satirical web game tungkol sa matinding tagtuyot sa Pilipinas at yung reality na madalas band-aid balde lang ang mabilisang sagot sa malawakang water crisis.
         </p>
         <div class="bg-amber-50 border-comic rounded-xl p-2.5 space-y-1.5 text-xs font-bold text-slate-800">
-          <p>🎯 <strong>Level 1: Nasaan ang Tubig?</strong> — Saluhin agad ang tumatagas na drops bago mag-evaporate sa 43°C.</p>
-          <p>🧪 <strong>Level 2: Filter Mo, Problema Mo</strong> — I-assemble ang 3 layers ng DIY balde filtration kit.</p>
+          <p>🎯 <strong>Level 1: Nasaan ang Tubig?</strong> — Saluhin ang tubig-ulan bago mag-evaporate, at iwasan ang dumi para hindi makontamina ang naipon.</p>
+          <p>🧪 <strong>Level 2: Buuin ang Water Filter</strong> — Sundan ang 5 hakbang sa pag-install ng bucket filter kit.</p>
           <p>🪣 <strong>Level 3: Rasyon sa Pamilya</strong> — I-budget ang 20L sa gatas ng baby, pagkain, at hydration ni Bantay.</p>
           <p>🔥 <strong>Level 4: Diskarte sa Init</strong> — Bomba ng poso, dilig ng halaman, at painom sa pamilya.</p>
           <p>🏛️ <strong>Final Level: Pangmatagalang Solusyon</strong> — Pumili ng 3 long-term proposals para sa ending mo!</p>
@@ -722,6 +757,18 @@
 
       <button id="btn-next-level" class="btn-comic w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-komiks py-2.5 rounded-xl text-sm flex items-center justify-center gap-2">
         <span>Proceed to Next Day!</span> ➡️
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: LEVEL 1 GAME OVER ==================== -->
+  <div id="modal-game-over" class="fixed inset-0 bg-slate-900/85 backdrop-blur-xs flex items-center justify-center z-50 p-4 hidden">
+    <div class="bg-white border-comic-thick rounded-3xl max-w-sm w-full p-5 shadow-comic-lg text-center">
+      <div class="text-5xl mb-2">😥💧</div>
+      <h3 class="font-komiks text-2xl text-rose-600 uppercase tracking-wide">Game Over!</h3>
+      <p class="font-bangers text-base text-slate-600 my-3">Walang naipong tubig-ulan. Subukan ulit!</p>
+      <button id="btn-try-again" class="btn-comic w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-komiks py-2.5 rounded-xl text-sm">
+        Try Again
       </button>
     </div>
   </div>
@@ -1026,7 +1073,7 @@
         </div>
       `;
 
-      // Spawn rapid drops
+      // Spawn rainwater and occasional contamination hazards.
       GameState.loopInterval = setInterval(() => {
         spawnDroplet(arena);
       }, 700);
@@ -1036,6 +1083,10 @@
         updateHUD();
         if (GameState.timer <= 0) {
           clearTimers();
+          if (GameState.waterLitres <= 0) {
+            document.getElementById('modal-game-over').classList.remove('hidden');
+            return;
+          }
           const speedBonus = Math.round(GameState.waterLitres / 2);
           showLevelClearModal(
             "LEVEL 1 COMPLETE: MAY NAISALBA KA!",
@@ -1049,10 +1100,11 @@
 
     function spawnDroplet(container) {
       if (GameState.timer <= 0) return;
+      const isContaminant = Math.random() < 0.2;
       const drop = document.createElement('button');
       drop.className = 'absolute text-3xl sm:text-4xl select-none cursor-pointer transform hover:scale-125 transition active:scale-95 z-20';
-      drop.innerHTML = '💧';
-      drop.setAttribute('aria-label', 'Saluhing Tubig');
+      drop.innerHTML = isContaminant ? '💩' : '💧';
+      drop.setAttribute('aria-label', isContaminant ? 'Iwasan ang dumi' : 'Saluhing tubig-ulan');
 
       const arenaWidth = container.clientWidth - 50;
       const arenaHeight = container.clientHeight - 80;
@@ -1062,23 +1114,34 @@
       drop.style.left = `${posX}px`;
       drop.style.top = `${posY}px`;
 
-      let evaporated = false;
+      let resolved = false;
       const dropSounds = ['💦 Splash!', '💧 Salo!', '✨ Swak!', '🧊 Malamig!'];
       const sizzleSounds = ['💨 Singaw!', '🔥 Tuyot agad!', '☀️ Naprito!'];
 
       const handleCatch = (e) => {
-        if (evaporated) return;
+        if (resolved) return;
+        resolved = true;
         e.stopPropagation();
         e.preventDefault();
-        sound.playWaterDrop();
-        
-        GameState.levelScore += 2;
-        GameState.waterLitres = Math.min(20, GameState.waterLitres + 1.5);
-        GameState.thirstPercent = Math.max(10, GameState.thirstPercent - 3);
-        
-        const randomPop = dropSounds[Math.floor(Math.random() * dropSounds.length)];
         const rect = drop.getBoundingClientRect();
-        showFloatingText(`${randomPop} +2`, rect.left, rect.top, '#0284c7');
+        if (isContaminant) {
+          const waterLost = Math.min(1.5, GameState.waterLitres);
+          GameState.waterLitres -= waterLost;
+          GameState.levelScore = Math.max(0, GameState.levelScore - 2);
+          showFloatingText(
+            waterLost > 0 ? `💩 Kontaminado! -${waterLost.toFixed(1)}L` : '💩 Iwasan ang dumi!',
+            rect.left,
+            rect.top,
+            '#92400e'
+          );
+        } else {
+          sound.playWaterDrop();
+          GameState.levelScore += 2;
+          GameState.waterLitres = Math.min(20, GameState.waterLitres + 1.5);
+          GameState.thirstPercent = Math.max(10, GameState.thirstPercent - 3);
+          const randomPop = dropSounds[Math.floor(Math.random() * dropSounds.length)];
+          showFloatingText(`${randomPop} +2`, rect.left, rect.top, '#0284c7');
+        }
         drop.remove();
         updateHUD();
       };
@@ -1088,19 +1151,23 @@
 
       container.appendChild(drop);
 
-      // Droplet evaporates
+      // Rainwater evaporates; contaminants disappear without affecting the meters.
       setTimeout(() => {
         if (drop.parentNode) {
-          evaporated = true;
-          sound.playSizzle();
-          const sizzlePop = sizzleSounds[Math.floor(Math.random() * sizzleSounds.length)];
-          const rect = drop.getBoundingClientRect();
-          showFloatingText(sizzlePop, rect.left, rect.top, '#ef4444');
-          drop.innerHTML = '💨';
-          drop.style.opacity = '0.5';
-          setTimeout(() => drop.remove(), 350);
+          resolved = true;
+          if (isContaminant) {
+            drop.remove();
+          } else {
+            sound.playSizzle();
+            const sizzlePop = sizzleSounds[Math.floor(Math.random() * sizzleSounds.length)];
+            const rect = drop.getBoundingClientRect();
+            showFloatingText(sizzlePop, rect.left, rect.top, '#ef4444');
+            drop.innerHTML = '💨';
+            drop.style.opacity = '0.5';
+            setTimeout(() => drop.remove(), 350);
+          }
         }
-      }, 1250);
+      }, isContaminant ? 1800 : 1250);
     }
 
     // ==========================================
@@ -1115,69 +1182,93 @@
       switchScreen('lvl2');
       updateHUD();
 
-      const assembledLayers = [];
-      const correctSequence = ['gravel', 'charcoal', 'membrane'];
+      let currentStep = 0;
       const feedback = document.getElementById('filter-feedback');
-      feedback.innerText = "Simulan sa pinakababa (Sand & Graba pambawas ng putik)!";
+      const animation = document.getElementById('filter-animation');
+      const stepButtons = document.querySelectorAll('.filter-step');
+      const stepsContainer = document.getElementById('filter-steps');
+      const shuffledSteps = Array.from(stepButtons);
+      for (let i = shuffledSteps.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledSteps[i], shuffledSteps[j]] = [shuffledSteps[j], shuffledSteps[i]];
+      }
+      if (shuffledSteps.every((button, index) => Number(button.dataset.step) === index)) {
+        [shuffledSteps[0], shuffledSteps[1]] = [shuffledSteps[1], shuffledSteps[0]];
+      }
+      shuffledSteps.forEach(button => stepsContainer.appendChild(button));
 
-      document.getElementById('slot-layer-1').className = "w-full h-14 bg-slate-200 border-comic rounded-lg flex items-center justify-center text-xs font-bold text-slate-500 text-center px-1";
-      document.getElementById('slot-layer-1').innerText = "[ Layer 1: Sand & Gravel ]";
-      document.getElementById('slot-layer-2').className = "w-full h-14 bg-slate-200 border-comic rounded-lg mb-1 flex items-center justify-center text-xs font-bold text-slate-500 text-center px-1";
-      document.getElementById('slot-layer-2').innerText = "[ Layer 2: Activated Charcoal ]";
-      document.getElementById('slot-layer-3').className = "w-full h-14 bg-slate-200 border-comic rounded-lg mb-1 flex items-center justify-center text-xs font-bold text-slate-500 text-center px-1";
-      document.getElementById('slot-layer-3').innerText = "[ Layer 3: Faucet & Micro-Filter ]";
+      const stepFeedback = [
+        "Ayos, may butas na para sa adapter.",
+        "Nasa puwesto na ang adapter at washers.",
+        "Higpit na ang nut—sunod, ikabit ang hose.",
+        "Nakakabit na ang hose. Huling step na!",
+        "Umaagos na ang tubig sa filter!"
+      ];
+      const animationParts = [
+        ['filter-drill'],
+        ['filter-washer-inside', 'filter-adapter', 'filter-washer-outside'],
+        ['filter-nut'],
+        ['filter-hose'],
+        ['filter-pour', 'filter-flow']
+      ];
 
-      const partButtons = document.querySelectorAll('.part-item');
-      partButtons.forEach(btn => {
-        btn.disabled = false;
-        btn.classList.remove('opacity-40');
+      animation.dataset.step = '0';
+      document.getElementById('filter-drill').classList.remove('active');
+      document.getElementById('filter-water').classList.remove('filling');
+      document.querySelectorAll('.filter-part').forEach(part => part.classList.remove('installed'));
+      document.getElementById('filter-flow').classList.remove('active');
+      document.querySelectorAll('.filter-step').forEach(button => {
+        button.disabled = false;
+        button.classList.remove('opacity-40', 'bg-emerald-200');
+        button.classList.add('bg-amber-100');
       });
+      feedback.innerText = "Naka-random ang mga hakbang. Piliin ang tamang pagkakasunod-sunod.";
 
-      partButtons.forEach(btn => {
-        btn.onclick = () => {
-          const chosenPart = btn.getAttribute('data-part');
-          const expectedPart = correctSequence[assembledLayers.length];
-
-          if (chosenPart === expectedPart) {
-            sound.playWaterDrop();
-            assembledLayers.push(chosenPart);
-            btn.disabled = true;
-            btn.classList.add('opacity-40');
-            GameState.levelScore += 5;
-
-            if (chosenPart === 'gravel') {
-              const s1 = document.getElementById('slot-layer-1');
-              s1.className = "w-full h-14 bg-yellow-400 border-comic rounded-lg flex items-center justify-center text-xs font-black text-slate-900 text-center px-1";
-              s1.innerText = "✅ Layer 1 OK: Sand & Graba (No more putik!)";
-              feedback.innerText = "Nice one! Sunod yung Activated Charcoal para mawala amoy-imbornal!";
-            } else if (chosenPart === 'charcoal') {
-              const s2 = document.getElementById('slot-layer-2');
-              s2.className = "w-full h-14 bg-slate-800 border-comic rounded-lg mb-1 flex items-center justify-center text-xs font-black text-white text-center px-1";
-              s2.innerText = "✅ Layer 2 OK: Activated Charcoal (Amoy fresh na!)";
-              feedback.innerText = "Last step! Ikabit ang Micro-Filter Faucet bago sumingaw ang tubig!";
-            } else if (chosenPart === 'membrane') {
-              const s3 = document.getElementById('slot-layer-3');
-              s3.className = "w-full h-14 bg-sky-400 border-comic rounded-lg mb-1 flex items-center justify-center text-xs font-black text-slate-900 text-center px-1";
-              s3.innerText = "✅ Layer 3 OK: Installed na ang Faucet!";
-              feedback.innerText = "Solid! Functional na ang 20L Balde Filter mo!";
-              
-              clearTimers();
-              sound.playSuccess();
-              GameState.waterLitres = 20.0;
-              
-              const speedBonus = Math.max(2, Math.floor(GameState.timer / 2));
-              showLevelClearModal(
-                "LEVEL 2 COMPLETE: BUO NA ANG BALDE!",
-                "May sarili nang filtration kit ang bahay! Pero kasya ba 'to sa lahat?",
-                speedBonus,
-                startLevel3
-              );
-            }
-            updateHUD();
-          } else {
+      stepButtons.forEach(button => {
+        button.onclick = () => {
+          const chosenStep = Number(button.dataset.step);
+          if (chosenStep !== currentStep) {
             sound.playSizzle();
             triggerShake();
-            feedback.innerText = "Hala mali ang sequence! Baka sumakit ang tiyan ng buong pamilya!";
+            feedback.innerText = "Hindi pa ito ang tamang step. Ayusin muna ang pagkakabit bago magpatuloy.";
+            return;
+          }
+
+          sound.playWaterDrop();
+          GameState.levelScore += 5;
+          button.disabled = true;
+          button.classList.remove('bg-amber-100');
+          button.classList.add('opacity-40', 'bg-emerald-200');
+
+          animationParts[currentStep].forEach(partId => {
+            const part = document.getElementById(partId);
+            if (partId === 'filter-drill') {
+              part.classList.add('active');
+            } else {
+              part.classList.add('installed');
+            }
+          });
+          if (currentStep === 4) {
+            document.getElementById('filter-water').classList.add('filling');
+            document.getElementById('filter-flow').classList.add('active');
+          }
+
+          currentStep++;
+          animation.dataset.step = String(currentStep);
+          feedback.innerText = stepFeedback[currentStep - 1];
+          updateHUD();
+
+          if (currentStep === stepButtons.length) {
+            clearTimers();
+            sound.playSuccess();
+            GameState.waterLitres = 20.0;
+            const speedBonus = Math.max(2, Math.floor(GameState.timer / 2));
+            showLevelClearModal(
+              "LEVEL 2 COMPLETE: BUO NA ANG BALDE!",
+              "Nasunod mo ang assembly steps at nakakabit na ang filter kit.",
+              speedBonus,
+              startLevel3
+            );
           }
         };
       });
@@ -1191,7 +1282,7 @@
           GameState.waterLitres = Math.max(12, GameState.waterLitres);
           showLevelClearModal(
             "LEVEL 2: NAUBUSAN NG TIME!",
-            "Nagmadali ka kaya may konting lasang lupa pa, pero at least may nasala!",
+            "Hindi natapos ang pagbuo ng filter kit sa oras.",
             0,
             startLevel3
           );
@@ -1657,6 +1748,13 @@
 
       document.getElementById('btn-play-again').onclick = () => {
         sound.playWaterDrop();
+        GameState.totalScore = 0;
+        startLevel1();
+      };
+
+      document.getElementById('btn-try-again').onclick = () => {
+        sound.playWaterDrop();
+        document.getElementById('modal-game-over').classList.add('hidden');
         GameState.totalScore = 0;
         startLevel1();
       };
