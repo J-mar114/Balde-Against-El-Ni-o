@@ -42,6 +42,3 @@ This fan-made satirical project raises awareness about water scarcity. It does n
 **Created and developed by Jaymar Budduan.**
 
 **Disclaimer:** The situations and mechanics in this game are for entertainment. This game is not a guide to determining whether drinking water is safe and is not a substitute for official health or emergency advice.
-
-
-Test1234
